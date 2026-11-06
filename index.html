@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>에이버리쌤 자료실</title>
+<meta name="description" content="my.little.chatterbox 릴스 속 나눔 자료를 한곳에서 받아 가세요.">
+<meta property="og:title" content="@my.little.chatterbox · 에이버리쌤 자료실">
+<meta property="og:description" content="릴스 속 파닉스·소리 놀이 나눔 자료 모음">
+<meta property="og:image" content="avatar.jpg">
+<meta name="theme-color" content="#0f4f48">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Jua&family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lime:#B8FF1A; --ink:#16231C; --white:#fff;
+  --teal1:#0B3F3B; --teal2:#14706A; --green:#5FA347;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--teal1)}
+body{margin:0;min-height:100dvh;color:var(--ink);font-family:'Noto Sans KR',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+/* 마블 느낌 배경 (이미지 없이 그라데이션으로, 휴대폰에서도 고정되게 따로 깔아요) */
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(120% 60% at 110% 10%, rgba(185,195,90,.55), transparent 55%),
+    radial-gradient(90% 50% at -10% 35%, rgba(95,163,71,.55), transparent 60%),
+    radial-gradient(80% 40% at 100% 70%, rgba(46,156,138,.7), transparent 60%),
+    radial-gradient(100% 50% at 0% 100%, rgba(185,195,90,.45), transparent 60%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 2px, transparent 2px 30px),
+    linear-gradient(160deg, var(--teal2) 0%, var(--teal1) 45%, var(--teal2) 75%, var(--green) 100%);}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:3px solid var(--white);outline-offset:3px}
+main{max-width:520px;margin:0 auto;padding:44px 16px calc(40px + env(safe-area-inset-bottom))}
+
+/* 프로필 */
+header{text-align:center;color:var(--lime);margin-bottom:30px}
+.avatar{width:112px;height:112px;border:3px solid var(--lime);border-radius:50%;object-fit:cover;display:block;margin:0 auto 16px;background:#cfd8d3}
+.handle{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(30px,9vw,44px);line-height:1.05;letter-spacing:-.02em;margin:0;overflow-wrap:anywhere}
+.name{font-weight:700;font-size:18px;margin:10px 0 0}
+.bio{color:#E9FFD0;font-size:14px;margin:8px 0 0;line-height:1.6}
+.ig{display:inline-flex;margin-top:14px;width:44px;height:44px;align-items:center;justify-content:center}
+.ig svg{width:34px;height:34px}
+
+/* 섹션 이름 */
+h2{color:var(--lime);font-family:'Jua',sans-serif;font-weight:400;font-size:19px;margin:30px 4px 12px;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:2px;border-radius:2px;background:rgba(184,255,26,.35)}
+
+/* 자료 버튼 */
+.pill{position:relative;display:flex;align-items:center;min-height:72px;background:var(--lime);border-radius:999px;padding:8px 48px 8px 8px;margin-bottom:12px;scroll-margin-top:20px;transition:transform .12s}
+.pill:active{transform:scale(.985)}
+.pill .dot{flex:none;width:58px;height:58px;border:2px solid #fff;border-radius:50%;overflow:hidden;background:#FFFDF9;display:flex;align-items:center;justify-content:center;font-family:'Jua',sans-serif;font-size:22px;color:#C2533A;position:relative}
+.pill .dot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;transform:scale(1.35);transform-origin:top center;background:#FFFDF9}
+.pill .title{flex:1;text-align:center;font-weight:700;font-size:16px;line-height:1.35;padding-left:8px}
+
+/* NEW · 공유 */
+.new{position:absolute;top:-6px;right:18px;z-index:2;background:var(--ink);color:var(--lime);font-family:'DM Serif Display',serif;font-size:13px;letter-spacing:.06em;border-radius:999px;padding:3px 11px}
+.share{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:44px;border:0;background:none;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:12px}
+.share svg{width:22px;height:22px}
+.hit{box-shadow:0 0 0 4px var(--white),0 0 0 9px rgba(184,255,26,.6)}
+
+footer{margin-top:36px;text-align:center;color:#D9F7C2;font-size:13px;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--lime);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:700;transition:.25s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img class="avatar" src="avatar.jpg" alt="에이버리쌤 프로필 사진" width="112" height="112">
+    <h1 class="handle">@my.little.chatterbox</h1>
+    <p class="name">Avery 쌤</p>
+    <p class="bio">릴스에서 소개한 나눔 자료를 모아 두었어요.<br>누르면 구글 드라이브에서 바로 열려요.</p>
+    <a class="ig" href="https://www.instagram.com/my.little.chatterbox/" aria-label="인스타그램 @my.little.chatterbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+    </a>
+  </header>
+
+  <div id="list"></div>
+
+  <footer>
+    자료는 가정과 수업에서 자유롭게 써 주세요.<br>
+    다른 곳에 올리실 때는 출처 @my.little.chatterbox 를 남겨 주세요.
+  </footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ───────────────────────────────────────────────
+   자료 추가하는 법
+   1) 드라이브에서 PDF 공유 → "링크가 있는 모든 사용자" → 링크 복사
+   2) 링크의 /d/ 와 /view 사이 글자가 drive 값이에요.
+   3) 아래 RESOURCES 에 블록 하나를 복사해 붙이고 내용을 바꿔요.
+      id 는 영어 소문자로 짧게. 주소 끝에 #id 를 붙이면 그 자료로 바로 이동해요.
+      동그라미 미리보기는 드라이브 PDF 첫 장을 자동으로 불러와요.
+      thumb 에 이미지 파일 이름을 넣으면 그 이미지를 대신 써요 (못 불러오면 제목 첫 글자가 나와요).
+   ─────────────────────────────────────────────── */
+const SERIES = [
+  { key: 'phonics', name: '파닉스 규칙 · 왜 소리가 달라요?' },
+  { key: 'sound',   name: '소리 놀이' },
+  { key: 'reading', name: '엄마표 영어 읽기 시리즈' },
+  { key: 'check',   name: '우리 아이 체크리스트' },
+];
+
+const RESOURCES = [
+  // 파닉스 규칙
+  { id: 'ck', series: 'phonics', added: '2026-11-06',
+    title: 'c와 k 언제 쓸까?', drive: '1ZXSktvu-6ZugwzOFm4FdGLsW4UG4rXlT' },
+  { id: 'sv', series: 'phonics', added: '2026-11-05',
+    title: '단모음 ≠ 아에이오우', drive: '1bGbDXzckOSXvXDX4FWoR2px6zjiCWqmG' },
+  { id: 'sv-listen', series: 'phonics', added: '2026-11-05', icon: '🔊',
+    title: '단모음 소리 듣기', url: 'https://listen.mylittlechatterbox.net/sv/' },
+  { id: 'c', series: 'phonics', added: '2026-10-31',
+    title: 'C는 왜 소리가 두 개?', drive: '1molVoycl9NN0-sT4w1MnvFYClaoE0VOq' },
+  { id: 'y', series: 'phonics', added: '2026-10-30',
+    title: 'Y는 무슨 소리가 날까?', drive: '1OWC0k06fZ1YI6ZmP5DS6957sxPhzvApQ' },
+  { id: 'y-game', series: 'phonics', added: '2026-11-05',
+    title: 'Y 소리 Roll & Read 게임판', drive: '13zeNfUbHZtK79L_4GRn43cy6p7J-CowJ' },
+
+  // 소리 놀이
+  { id: 'robot', series: 'sound', added: '2026-10-28',
+    title: '3편 Robot Talk 로봇 말하기 카드', drive: '1Is25ed2i8qeI4EkrbktAt5X23Wr3Bew1' },
+
+  // 읽기 시리즈
+  { id: 'r5', series: 'reading', added: '2026-10-16',
+    title: '5편 소리·철자·뜻 연결 연습지', drive: '17PFcu-347Qy4tj-68qqfDmQHsInYHR6u' },
+  { id: 'r4', series: 'reading', added: '2026-10-16',
+    title: '4편 소리 탐정 카드', drive: '1aFAACjtbDCNxlq_3pgZ27-qkNVKAIy35' },
+  { id: 'r3', series: 'reading', added: '2026-10-16',
+    title: '3편 Elkonin Boxes 엘코닌 박스', drive: '1LEp45x_Cp_lm_bkJfkNgL7F5rUzAJuFk' },
+  { id: 'r2', series: 'reading', added: '2026-10-16',
+    title: '2편 글자 없이 하는 소리 놀이', drive: '1xRXLz-ydL-ymdWvFZlwFTigkGI1Jsunb' },
+  { id: 'r1', series: 'reading', added: '2026-10-15',
+    title: '1편 문해력을 위한 두 바퀴 읽기 관찰지', drive: '1sC-W_bDpUtqQb5wozzNk7s_tzEF89b-5' },
+
+  // 체크리스트
+  { id: 'pa', series: 'check', added: '2026-09-03',
+    title: '음소 인식 체크리스트 Phonemic Awareness Assessment', drive: '1r1jtNcscqM8DD_6r6b3dg_9OHw3aXx5U' },
+  { id: 'abc', series: 'check', added: '2026-05-01',
+    title: '알파벳 소리 체크리스트 Phonics Checkpoint', drive: '1x1xxadibXgMH_WnjgDr_etgNBcefodYg' },
+  { id: 'writing', series: 'check', added: '2026-08-18',
+    title: 'Independent Writing Assessment', drive: '1r2PgCdAjiK8WEmzbo8TkYC51cPOU6UP9' },
+];
+
+const NEW_DAYS = 10;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isNew = d => (Date.now() - new Date(d + 'T00:00:00+09:00')) / 864e5 <= NEW_DAYS;
+const hrefOf = r => r.url || `https://drive.google.com/file/d/${r.drive}/view`;
+const thumbOf = r => r.thumb || (r.drive ? `https://drive.google.com/thumbnail?id=${r.drive}&sz=w1000` : '');
+const SHARE = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+const IMG = t => `<img src="${esc(t)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`;
+
+function pill(r) {
+  const t = thumbOf(r);
+  const dot = r.icon ? esc(r.icon) : esc([...r.title][0]) + (t ? IMG(t) : '');
+  return `<a class="pill" id="${esc(r.id)}" href="${esc(hrefOf(r))}" target="_blank" rel="noopener">
+    ${isNew(r.added) ? '<span class="new">NEW</span>' : ''}
+    <span class="dot" aria-hidden="true">${dot}</span><span class="title">${esc(r.title)}</span>
+    <button class="share" type="button" data-id="${esc(r.id)}" aria-label="${esc(r.title)} 링크 공유">${SHARE}</button></a>`;
+}
+
+function render() {
+  document.getElementById('list').innerHTML = SERIES.map(s => {
+    const items = RESOURCES.filter(r => r.series === s.key);
+    if (!items.length) return '';
+    return `<section><h2>${esc(s.name)}</h2>${items.map(pill).join('')}</section>`;
+  }).join('');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 1800);
+}
+
+document.addEventListener('click', async e => {
+  const b = e.target.closest('.share'); if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const r = RESOURCES.find(x => x.id === b.dataset.id);
+  const link = location.origin + location.pathname + '#' + r.id;
+  try {
+    if (navigator.share) { await navigator.share({ title: r.title, url: link }); return; }
+    await navigator.clipboard.writeText(link); toast('링크를 복사했어요');
+  } catch (err) { if (err && err.name !== 'AbortError') toast(link); }
+});
+
+function jump() {
+  document.querySelectorAll('.hit').forEach(el => el.classList.remove('hit'));
+  const id = decodeURIComponent(location.hash.slice(1));
+  const el = id && document.getElementById(id);
+  if (!el || !el.matches('.pill')) return;
+  el.classList.add('hit');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+render(); jump();
+window.addEventListener('hashchange', jump);
+</script>
+</body>
+</html>
