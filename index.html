@@ -108,8 +108,8 @@ const RESOURCES = [
     title: 'c와 k 언제 쓸까?', drive: '1ZXSktvu-6ZugwzOFm4FdGLsW4UG4rXlT' },
   { id: 'sv', series: 'phonics', added: '2026-11-05',
     title: '단모음 ≠ 아에이오우', drive: '1bGbDXzckOSXvXDX4FWoR2px6zjiCWqmG' },
-  { id: 'sv-listen', series: 'phonics', added: '2026-11-05', icon: '🔊',
-    title: '단모음 소리 듣기', url: 'https://listen.mylittlechatterbox.net/sv/' },
+  { id: 'sv-listen', series: 'phonics', added: '2026-11-05', icon: 'speaker',
+    title: '단모음 a e i o u 소리듣기', url: 'https://listen.mylittlechatterbox.net/sv/' },
   { id: 'c', series: 'phonics', added: '2026-10-31',
     title: 'C는 왜 소리가 두 개?', drive: '1molVoycl9NN0-sT4w1MnvFYClaoE0VOq' },
   { id: 'y', series: 'phonics', added: '2026-10-30',
@@ -148,11 +148,14 @@ const isNew = d => (Date.now() - new Date(d + 'T00:00:00+09:00')) / 864e5 <= NEW
 const hrefOf = r => r.url || `https://drive.google.com/file/d/${r.drive}/view`;
 const thumbOf = r => r.thumb || (r.drive ? `https://drive.google.com/thumbnail?id=${r.drive}&sz=w1000` : '');
 const SHARE = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+const ICONS = {
+  speaker: '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#16231C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#16231C"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+};
 const IMG = t => `<img src="${esc(t)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`;
 
 function pill(r) {
   const t = thumbOf(r);
-  const dot = r.icon ? esc(r.icon) : esc([...r.title][0]) + (t ? IMG(t) : '');
+  const dot = r.icon ? (ICONS[r.icon] || '') : esc([...r.title][0]) + (t ? IMG(t) : '');
   return `<a class="pill" id="${esc(r.id)}" href="${esc(hrefOf(r))}" target="_blank" rel="noopener">
     ${isNew(r.added) ? '<span class="new">NEW</span>' : ''}
     <span class="dot" aria-hidden="true">${dot}</span><span class="title">${esc(r.title)}</span>
