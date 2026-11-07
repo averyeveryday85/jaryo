@@ -142,9 +142,12 @@ const RESOURCES = [
     title: 'Independent Writing Assessment', drive: '1r2PgCdAjiK8WEmzbo8TkYC51cPOU6UP9' },
 ];
 
-const NEW_DAYS = 10;
+const NEW_COUNT = 2; // 가장 최근 자료 몇 개에 NEW를 붙일지
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const isNew = d => (Date.now() - new Date(d + 'T00:00:00+09:00')) / 864e5 <= NEW_DAYS;
+// added 날짜가 최신인 순서로 NEW_COUNT개 (날짜가 같으면 목록에서 위에 있는 것 먼저)
+const NEW_IDS = new Set(RESOURCES.map((r, i) => [r, i])
+  .sort((a, b) => b[0].added.localeCompare(a[0].added) || a[1] - b[1])
+  .slice(0, NEW_COUNT).map(([r]) => r.id));
 const hrefOf = r => r.url || `https://drive.google.com/file/d/${r.drive}/view`;
 const thumbOf = r => r.thumb || (r.drive ? `https://drive.google.com/thumbnail?id=${r.drive}&sz=w1000` : '');
 const SHARE = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
@@ -157,7 +160,7 @@ function pill(r) {
   const t = thumbOf(r);
   const dot = r.icon ? (ICONS[r.icon] || '') : esc([...r.title][0]) + (t ? IMG(t) : '');
   return `<a class="pill" id="${esc(r.id)}" href="${esc(hrefOf(r))}" target="_blank" rel="noopener">
-    ${isNew(r.added) ? '<span class="new">NEW</span>' : ''}
+    ${NEW_IDS.has(r.id) ? '<span class="new">NEW</span>' : ''}
     <span class="dot" aria-hidden="true">${dot}</span><span class="title">${esc(r.title)}</span>
     <button class="share" type="button" data-id="${esc(r.id)}" aria-label="${esc(r.title)} 링크 공유">${SHARE}</button></a>`;
 }
